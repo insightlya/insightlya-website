@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Insightlya - Flexible Colorful Survey Platform with Secret More Category</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(45deg, #ff6b6b, #f7b733, #63cdda, #667eea);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: #1f2937;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes gradientShift {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    a:hover, a:focus {
+      text-decoration: underline;
+    }
+
+    /*= Utility container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+      width: 100%;
+    }
+
+    /* =============== HEADER =============== */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255 255 255 / 0.9);
+      backdrop-filter: saturate(180%) blur(12px);
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      z-index: 50;
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-weight: 900;
+      font-size: 2.25rem;
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      cursor: default;
+      user-select: none;
+      letter-spacing: -0.05em;
+      filter: drop-shadow(0 2px 2px rgba(253,160,133,0.4));
+    }
+    nav {
+      display: flex;
+      gap: 32px;
+    }
+    nav button {
+      background: none;
+      border: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #374151;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.15s ease;
+      user-select: none;
+    }
+    nav button:hover,
+    nav button:focus {
+      background: #fda085;
+      color: white;
+      outline: none;
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(253,160,133,0.5);
+    }
+    nav button.active {
+      background: #ff6b6b;
+      color: white;
+      transform: scale(1.1);
+      box-shadow: 0 8px 16px rgba(255,107,107,0.6);
+    }
+
+    /* =============== MAIN WRAPPER =============== */
+    main {
+      flex-grow: 1;
+      width: 100%;
+      padding: 48px 24px 80px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* =============== LANDING PAGE =============== */
+    #landing-page {
+      display: flex;
+      flex-direction: column;
+      max-width: 1000px;
+      width: 100%;
+      gap: 48px;
+      animation: fadeIn 1s ease forwards;
+      color: #111827;
+      text-align: center;
+      user-select: none;
+    }
+
+    #landing-page h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    
+    #landing-page p {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #f3f4f6;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+      line-height: 1.6;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      border: none;
+      padding: 18px 36px;
+      border-radius: 24px;
+      font-weight: 900;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: #111827;
+      margin: 0 auto;
+      text-shadow: 0 1px 0 rgba(255 255 255 / 0.7);
+      box-shadow: 0 8px 16px rgba(253,160,133,0.4);
+      transition: box-shadow 0.3s ease, transform 0.15s ease;
+      user-select: none;
+      filter: drop-shadow(0 4px 4px rgba(253,160,133,0.3));
+      max-width: 280px;
+    }
+    .btn-main:hover, .btn-main:focus {
+      box-shadow: 0 16px 32px rgba(253,160,133,0.7);
+      outline: none;
+      transform: scale(1.07);
+    }
+
+    /* Categories container */
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+      gap: 24px;
+      justify-items: center;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 20px;
+      width: 180px;
+      height: 220px;
+      cursor: pointer;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      overflow: hidden;
+    }
+    .category-card:hover,
+    .category-card:focus {
+      outline: none;
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      z-index: 10;
+      border: 2px solid #fda085;
+    }
+    .category-icon {
+      font-size: 4.5rem;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 3px 3px rgba(253,160,133,0.5));
+    }
+    .category-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #374151;
+      text-transform: capitalize;
+      user-select: none;
+    }
+
+    /* =============== SURVEY PAGE =============== */
+    #survey-page {
+      width: 100%;
+      max-width: 900px;
+      min-height: 400px;
+      background: rgba(255 255 255 / 0.92);
+      border-radius: 24px;
+      padding: 32px 24px 48px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+      user-select: none;
+    }
+    #survey-page.active {
+      display: flex;
+      animation: fadeIn 1s ease forwards;
+    }
+    #survey-page h2 {
+      font-weight: 900;
+      font-size: 2.25rem;
+      color: #ff6b6b;
+      text-align: center;
+      margin: 0 auto 16px;
+      user-select: text;
+    }
+    #survey-instructions {
+      font-size: 1rem;
+      color: #4b5563;
+      text-align: center;
+      max-width: 640px;
+      user-select: text;
+      margin: 0 auto;
+    }
+
+    /* Survey form */
+    form#survey-form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 100%;
+      user-select: text;
+    }
+    form#survey-form label {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #111827;
+      display: block;
+      margin-bottom: 8px;
+    }
+    form#survey-form input[type="text"],
+    form#survey-form input[type="url"],
+    form#survey-form input[type="email"],
+    form#survey-form select,
+    form#survey-form textarea {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 1.5px solid #d1d5db;
+      color: #111827;
+      transition: border-color 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+    form#survey-form input[type="text"]:focus,
+    form#survey-form input[type="url"]:focus,
+    form#survey-form input[type="email"]:focus,
+    form#survey-form select:focus,
+    form#survey-form textarea:focus {
+      outline: none;
+      border-color: #ff6b6b;
+      box-shadow: 0 0 8px #ffc2c2;
+    }
+    form#survey-form textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    form#survey-form .options-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      user-select: none;
+    }
+    form#survey-form .option-label {
+      cursor: pointer;
+      background: #ff6b6b;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    form#survey-form input[type=checkbox]:checked + .option-label,
+    form#survey-form input[type=radio]:checked + .option-label {
+      background: #c0392b;
+      box-shadow: 0 6px 12px rgba(192,57,43,0.6);
+    }
+    form#survey-form input[type="checkbox"],
+    form#survey-form input[type="radio"] {
+      display: none;
+    }
+
+    form#survey-form input[type="file"] {
+      padding: 6px;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 1.5px solid #d1d5db;
+      width: 100%;
+      color: #374151;
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      background-color: #ff6b6b;
+      color: white;
+      font-weight: 900;
+      font-size: 1.25rem;
+      padding: 16px 0;
+      border: none;
+      border-radius: 32px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      user-select: none;
+      font-family: 'Poppins', sans-serif;
+      max-width: 280px;
+      margin: 0 auto;
+      box-shadow: 0 8px 20px rgba(255,107,107,0.6);
+    }
+    .btn-submit:hover,
+    .btn-submit:focus {
+      background-color: #c0392b;
+      outline: none;
+      transform: scale(1.05);
+      box-shadow: 0 12px 30px rgba(192,57,43,0.8);
+    }
+
+    /* Reward message */
+    #reward-message {
+      text-align: center;
+      font-weight: 700;
+      color: #147323;
+      font-size: 1.3rem;
+      margin-top: 12px;
+      user-select: text;
+    }
+
+    /* =============== FOOTER =============== */
+    footer {
+      text-align: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 24px 12px;
+      user-select: none;
+      text-shadow: 0 0 6px rgba(0,0,0,0.6);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 650px) {
+      #landing-page h1 {
+        font-size: 2.5rem;
+      }
+      .categories {
+        grid-template-columns: repeat(auto-fill, minmax(140px,1fr));
+        gap: 16px;
+      }
+      .category-card {
+        width: 140px;
+        height: 180px;
+        padding: 18px;
+      }
+      .category-icon {
+        font-size: 3.8rem;
+      }
+      .category-title {
+        font-size: 1.1rem;
+      }
+      #survey-page {
+        height: auto;
+        padding: 24px 12px 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner container" role="banner">
+      <div class="logo" tabindex="0" aria-label="Insightlya Logo">Insightlya</div>
+      <nav role="navigation" aria-label="Main navigation">
+        <button id="navHome" class="active" aria-current="page" aria-controls="landing-page" aria-expanded="true" aria-label="Show Home page">Home</button>
+        <button id="navSurvey" aria-controls="survey-page" aria-expanded="false" aria-label="Go to Survey page">Survey</button>
+      </nav>
+    </div>
+  </header>
+
+  <main role="main" class="container" tabindex="-1">
+    <!-- Landing Page -->
+    <section id="landing-page" aria-label="Welcome and categories section">
+      <h1>Discover &amp; Earn with Insightlya Surveys</h1>
+      <p>Choose your favorite category below and join exciting surveys designed just for you! Get rewards instantly like pulsa, e-money, vouchers, and more.</p>
+
+      <div class="categories" role="list" aria-label="Survey categories">
+        <div class="category-card" role="listitem" tabindex="0" data-category="fashion" aria-label="Fashion category survey. Click to take survey.">
+          <div class="category-icon" aria-hidden="true">&#128087;</div>
+          <div class="category-title">Fashion</div>
+        </div>
+
+        <div class="category-card" role="listitem" tabindex="0" data-category="kpop" aria-label="Kpop category survey. Click to take survey.">
+          <div class="category-icon" aria-hidden="true">&#127925;</div>
+          <div class="category-title">Kpop</div>
+        </div>
+
+        <div class="category-card" role="listitem" tabindex="0" data-category="games" aria-label="Games category survey. Click to take survey.">
+          <div class="category-icon" aria-hidden="true">&#127918;</div>
+          <div class="category-title">Games</div>
+        </div>
+
+        <div class="category-card" role="listitem" tabindex="0" data-category="technology" aria-label="Technology category survey. Click to take survey.">
+          <div class="category-icon" aria-hidden="true">&#128187;</div>
+          <div class="category-title">Technology</div>
+        </div>
+
+        <div class="category-card" role="listitem" tabindex="0" data-category="sports" aria-label="Sports category survey. Click to take survey.">
+          <div class="category-icon" aria-hidden="true">&#9917;</div>
+          <div class="category-title">Sports</div>
+        </div>
+
+        <div class="category-card" role="listitem" tabindex="0" data-category="food" aria-label="Food category survey. Click to take survey.">
+          <div class="category-icon" aria-hidden="true">&#127828;</div>
+          <div class="category-title">Food</div>
+        </div>
+
+        <div class="category-card" role="listitem" tabindex="0" data-category="more" aria-label="More category (secret code protected). Click to take survey if you have the code.">
+          <div class="category-icon" aria-hidden="true" style="font-weight: 900; font-size:5rem; background:none; color:#ff6b6b;">$</div>
+          <div class="category-title">More</div>
+        </div>
+      </div>
+
+      <button class="btn-main" id="btnTakeSurvey" aria-label="Start survey now">Take Survey Now</button>
+    </section>
+
+    <!-- Survey page with dynamic flexible form -->
+    <section id="survey-page" role="region" aria-label="Survey page containing dynamically generated questions">
+      <h2 tabindex="0" id="survey-category-title">Survey</h2>
+      <p id="survey-instructions">
+        Please fill out the survey below and submit your answers. You can attach photos or videos where applicable for bonus rewards. Thank you for your participation!
+      </p>
+
+      <form id="survey-form" novalidate aria-live="polite" aria-atomic="true" aria-describedby="reward-message">
+        <!-- Questions injected dynamically -->
+      </form>
+      <div id="reward-message" aria-live="polite"></div>
+      <button class="btn-back" id="btnBackHome" aria-label="Back to Home page">← Back Home</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2024 Insightlya. All rights reserved.</p>
+    <p>Contact: <a href="mailto:support@insightlya.example" aria-label="Email support at insightlya">support@insightlya.example</a></p>
+  </footer>
+
+  <script>
+    (() => {
+      const navHomeBtn = document.getElementById('navHome');
+      const navSurveyBtn = document.getElementById('navSurvey');
+      const landingPage = document.getElementById('landing-page');
+      const surveyPage = document.getElementById('survey-page');
+      const surveyCategoryTitle = document.getElementById('survey-category-title');
+      const btnBackHome = document.getElementById('btnBackHome');
+      const btnTakeSurvey = document.getElementById('btnTakeSurvey');
+      const surveyForm = document.getElementById('survey-form');
+      const rewardMessage = document.getElementById('reward-message');
+      const categoryCards = landingPage.querySelectorAll('.category-card');
+
+      // Flexible survey questions data structure
+      // question type: "text", "textarea", "select", "radio", "checkbox", "file", "url"
+      // options: for select, radio, checkbox
+      // required: boolean
+      // label, placeholder, description optional
+      const surveyQuestions = {
+        fashion: [
+          { id: "q1", type: "text", label: "What is your favorite fashion brand?", required: true, placeholder: "Type brand name" },
+          { id: "q2", type: "textarea", label: "Describe your fashion style in 2-3 sentences.", required: true, placeholder: "Your style description" },
+          { id: "q3", type: "radio", label: "How often do you shop for clothes?", required: true,
+            options: [
+              "Once a week",
+              "Once a month",
+              "A few times a year",
+              "Rarely"
+            ]
+          },
+          { id: "q4", type: "checkbox", label: "Which fashion items do you purchase regularly?", required: false,
+            options: [
+              "Shoes",
+              "Accessories",
+              "Clothing",
+              "Jewelry",
+              "Bags"
+            ]
+          },
+          { id: "q5", type: "file", label: "Upload a photo of your favorite outfit (optional)", required: false },
+          { id: "q6", type: "url", label: "Share a link to a fashion blog or influencer you follow (optional)", required: false, placeholder: "https://example.com" },
+          { id: "q7", type: "select", label: "What is your preferred shopping platform?", required: true,
+            options: [
+              "Physical stores",
+              "Online stores",
+              "Both equally"
+            ]
+          }
+        ],
+        kpop: [
+          { id: "q1", type: "text", label: "Who is your favorite Kpop group or artist?", required: true, placeholder: "Name the group or artist" },
+          { id: "q2", type: "textarea", label: "Why do you like them?", required: true, placeholder: "Your reasons" },
+          { id: "q3", type: "select", label: "How frequently do you listen to Kpop?", required: true,
+            options: [
+              "Every day",
+              "A few times a week",
+              "Occasionally",
+              "Rarely"
+            ]
+          },
+          { id: "q4", type: "checkbox", label: "Which Kpop content do you engage with? (select all that apply)", required: false,
+            options: [
+              "Music videos",
+              "Dance covers",
+              "Live concerts",
+              "Behind the scenes",
+              "Variety shows"
+            ]
+          },
+          { id: "q5", type: "file", label: "Upload a favorite Kpop photo or fan art (optional)", required: false },
+          { id: "q6", type: "url", label: "Share your favorite Kpop video or link (optional)", required: false, placeholder: "https://youtube.com/..." }
+        ],
+        games: [
+          { id: "q1", type: "text", label: "What is your favorite game?", required: true, placeholder: "Game title" },
+          { id: "q2", type: "textarea", label: "What do you like most about this game?", required: true, placeholder: "Your thoughts" },
+          { id: "q3", type: "select", label: "What platform do you mainly play on?", required: true,
+            options: [
+              "PC",
+              "Console",
+              "Mobile",
+              "Cross-platform"
+            ]
+          },
+          { id: "q4", type: "checkbox", label: "Which game genres do you enjoy? (select all that apply)", required: false,
+            options: [
+              "RPG",
+              "FPS",
+              "Strategy",
+              "Simulation",
+              "Sports"
+            ]
+          },
+          { id: "q5", type: "file", label: "Upload a screenshot or clip from your favorite game (optional)", required: false },
+          { id: "q6", type: "url", label: "Share a link to a gaming stream or video you like (optional)", required: false, placeholder: "https://twitch.tv/..." }
+        ],
+        technology: [
+          { id: "q1", type: "text", label: "What is your preferred tech gadget?", required: true, placeholder: "Phone, laptop, etc." },
+          { id: "q2", type: "textarea", label: "What new technology excites you the most?", required: true, placeholder: "Your favorite new tech" },
+          { id: "q3", type: "radio", label: "How often do you upgrade your devices?", required: true,
+            options: [
+              "Every year",
+              "Every 2-3 years",
+              "Only when is necessary",
+              "Rarely"
+            ]
+          },
+          { id: "q4", type: "checkbox", label: "Which tech brands do you trust? (select all that apply)", required: false,
+            options: [
+              "Apple",
+              "Samsung",
+              "Sony",
+              "Google",
+              "Microsoft"
+            ]
+          },
+          { id: "q5", type: "file", label: "Upload a photo of your main device (optional)", required: false }
+        ],
+        sports: [
+          { id: "q1", type: "text", label: "What is your favorite sport?", required: true, placeholder: "Sport name" },
+          { id: "q2", type: "textarea", label: "Explain why you like this sport.", required: true, placeholder: "Your reasons" },
+          { id: "q3", type: "select", label: "How often do you play or watch sports?", required: true,
+            options: [
+              "Daily",
+              "Weekly",
+              "Monthly",
+              "Rarely"
+            ]
+          },
+          { id: "q4", type: "checkbox", label: "Favorite sports teams or players (select all that apply)", required: false,
+            options: [
+              "Football",
+              "Basketball",
+              "Tennis",
+              "Esports",
+              "Others"
+            ]
+          },
+          { id: "q5", type: "file", label: "Upload a photo from your last sports event (optional)", required: false }
+        ],
+        food: [
+          { id: "q1", type: "text", label: "What is your favorite cuisine?", required: true, placeholder: "Cuisine type" },
+          { id: "q2", type: "textarea", label: "Describe your perfect meal.", required: true, placeholder: "Your description" },
+          { id: "q3", type: "select", label: "How often do you try new foods?", required: true,
+            options: [
+              "Every week",
+              "Monthly",
+              "A few times a year",
+              "Rarely"
+            ]
+          },
+          { id: "q4", type: "checkbox", label: "Which food types do you enjoy? (select all that apply)", required: false,
+            options: [
+              "Vegetarian",
+              "Seafood",
+              "Fast food",
+              "Desserts",
+              "Healthy food"
+            ]
+          },
+          { id: "q5", type: "file", label: "Upload a photo of your favorite dish (optional)", required: false }
+        ],
+        more: [
+          { id: "q1", type: "textarea", label: "What is the most important secret about life that you know?", required: true, placeholder: "Share your wisdom or secret here..." },
+          { id: "q2", type: "textarea", label: "How do you define happiness in your life?", required: true, placeholder: "Explain your view of happiness." },
+          { id: "q3", type: "text", label: "Who is the most inspiring person in your life?", required: true, placeholder: "Name or describe the person" },
+          { id: "q4", type: "textarea", label: "Share a personal life lesson you recently learned.", required: false, placeholder: "Your lesson" },
+          { id: "q5", type: "checkbox", label: "Which of these qualities do you value most?", required: true,
+            options: [
+              "Honesty",
+              "Compassion",
+              "Courage",
+              "Patience",
+              "Gratitude"
+            ]
+          },
+          { id: "q6", type: "file", label: "Upload a photo or video that symbolizes your secret to life (optional)", required: false }
+        ]
+      };
+
+      // Secret code and access storage key names
+      const SECRET_CODE_KEY = "insightlya_secret_code";
+      const SECRET_USER_KEY = "insightlya_secret_user";
+
+      // Generate a random 6-digit code for secret access
+      function generateSecretCode() {
+        return Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit numeric string
+      }
+
+      // Generate a simple unique user ID for session
+      function generateUserId() {
+        return 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6);
+      }
+
+      // Get or create session user id
+      function getSessionUserId() {
+        let uid = sessionStorage.getItem(SECRET_USER_KEY);
+        if (!uid) {
+          uid = generateUserId();
+          sessionStorage.setItem(SECRET_USER_KEY, uid);
+        }
+        return uid;
+      }
+
+      // Secret code logic for "more" category access
+      function checkSecretCodeAccess() {
+        const storedCode = localStorage.getItem(SECRET_CODE_KEY);
+        const storedUser = localStorage.getItem(SECRET_USER_KEY);
+        const currentUser = getSessionUserId();
+
+        if (!storedCode || !storedUser) {
+          // No existing code, generate one and assign current user
+          const newCode = generateSecretCode();
+          localStorage.setItem(SECRET_CODE_KEY, newCode);
+          localStorage.setItem(SECRET_USER_KEY, currentUser);
+          alert(`Admin secret code generated for 'More' category: ${newCode}\nNote: This code is saved until another user requests access.`);
+          return { accessGranted: true };
+        }
+
+        if (storedUser === currentUser) {
+          // Current user already has access
+          alert(`Welcome back! Your secret code for 'More' category is: ${storedCode}`);
+          return { accessGranted: true };
+        }
+
+        // Different user trying to access
+        // Prompt for secret code
+        let enteredCode = prompt("The 'More' category is protected. Please enter the secret code sent by admin:");
+        if (!enteredCode) {
+          alert("Access denied: No code entered.");
+          return { accessGranted: false };
+        }
+
+        if (enteredCode.trim() === storedCode) {
+          // Grant access to new user and rotate code
+          const newCode = generateSecretCode();
+          localStorage.setItem(SECRET_CODE_KEY, newCode);
+          localStorage.setItem(SECRET_USER_KEY, currentUser);
+          alert(`Access granted! Your secret code was correct.\nThe secret code has now changed for next user.\nYour new code is: ${newCode}`);
+          return { accessGranted: true };
+        } else {
+          alert("Access denied: Incorrect secret code.");
+          return { accessGranted: false };
+        }
+      }
+
+      // State tracking for selected category on landing page
+      let selectedCategory = null;
+
+      // Activate nav button styling
+      function setActiveNav(button) {
+        [navHomeBtn, navSurveyBtn].forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-current', 'false');
+          b.setAttribute('aria-expanded', 'false');
+        });
+        button.classList.add('active');
+        button.setAttribute('aria-current', 'page');
+        button.setAttribute('aria-expanded', 'true');
+      }
+
+      // Show Home page, hide survey page
+      function showHomePage() {
+        landingPage.style.display = 'flex';
+        surveyPage.classList.remove('active');
+        setActiveNav(navHomeBtn);
+        landingPage.focus();
+        clearSurveyForm();
+        rewardMessage.innerHTML = '';
+        // Remove highlight on categories
+        categoryCards.forEach(card => {
+          card.style.border = "";
+          card.style.boxShadow = "";
+          card.style.transform = "";
+          card.removeAttribute('aria-selected');
+        });
+        selectedCategory = null;
+      }
+
+      // Show survey page with dynamic form for selected category
+      function showSurveyPage(category) {
+        if (!category) {
+          category = "fashion";
+        }
+        if(category === "more"){
+          // Check secret code access for protected "more"
+          const access = checkSecretCodeAccess();
+          if (!access.accessGranted) {
+            return showHomePage();
+          }
+        }
+        selectedCategory = category;
+
+        landingPage.style.display = 'none';
+        surveyPage.classList.add('active');
+        setActiveNav(navSurveyBtn);
+        surveyCategoryTitle.textContent = `${category.charAt(0).toUpperCase() + category.slice(1)} Survey`;
+        rewardMessage.textContent = '';
+        renderSurveyQuestions(category);
+        surveyPage.focus();
+      }
+
+      // Render survey questions dynamic form for category
+      function renderSurveyQuestions(category) {
+        const questions = surveyQuestions[category] || [];
+        surveyForm.innerHTML = '';
+
+        questions.forEach(q => {
+          const fieldWrapper = document.createElement('div');
+          fieldWrapper.classList.add('field-wrapper');
+
+          const label = document.createElement('label');
+          label.setAttribute('for', q.id);
+          label.textContent = q.label;
+          if(q.required){
+            label.innerHTML += ' <span aria-hidden="true" style="color:#e11d48;">*</span>';
+          }
+          fieldWrapper.appendChild(label);
+
+          let inputElement;
+
+          switch(q.type) {
+            case "text":
+            case "url":
+            case "email":
+              inputElement = document.createElement('input');
+              inputElement.type = q.type;
+              inputElement.id = q.id;
+              inputElement.name = q.id;
+              if (q.placeholder) inputElement.placeholder = q.placeholder;
+              if (q.required) inputElement.required = true;
+              break;
+
+            case "textarea":
+              inputElement = document.createElement('textarea');
+              inputElement.id = q.id;
+              inputElement.name = q.id;
+              if (q.placeholder) inputElement.placeholder = q.placeholder;
+              if (q.required) inputElement.required = true;
+              break;
+
+            case "select":
+              inputElement = document.createElement('select');
+              inputElement.id = q.id;
+              inputElement.name = q.id;
+              if (q.required) inputElement.required = true;
+              const defaultOpt = document.createElement('option');
+              defaultOpt.value = "";
+              defaultOpt.textContent = "Select an option";
+              defaultOpt.disabled = true;
+              defaultOpt.selected = true;
+              inputElement.appendChild(defaultOpt);
+              q.options.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt;
+                inputElement.appendChild(o);
+              });
+              break;
+
+            case "radio":
+              inputElement = document.createElement('div');
+              inputElement.classList.add('options-container');
+              q.options.forEach((opt, i) => {
+                const optId = q.id + "_r" + i;
+                const radioInput = document.createElement('input');
+                radioInput.type = "radio";
+                radioInput.name = q.id;
+                radioInput.id = optId;
+                radioInput.value = opt;
+                if (q.required) radioInput.required = true;
+
+                const radioLabel = document.createElement('label');
+                radioLabel.className = "option-label";
+                radioLabel.setAttribute('for', optId);
+                radioLabel.textContent = opt;
+
+                inputElement.appendChild(radioInput);
+                inputElement.appendChild(radioLabel);
+              });
+              break;
+
+            case "checkbox":
+              inputElement = document.createElement('div');
+              inputElement.classList.add('options-container');
+              q.options.forEach((opt, i) => {
+                const optId = q.id + "_c" + i;
+                const chkInput = document.createElement('input');
+                chkInput.type = "checkbox";
+                chkInput.name = q.id;
+                chkInput.id = optId;
+                chkInput.value = opt;
+
+                const chkLabel = document.createElement('label');
+                chkLabel.className = "option-label";
+                chkLabel.setAttribute('for', optId);
+                chkLabel.textContent = opt;
+
+                inputElement.appendChild(chkInput);
+                inputElement.appendChild(chkLabel);
+              });
+              break;
+
+            case "file":
+              inputElement = document.createElement('input');
+              inputElement.type = "file";
+              inputElement.id = q.id;
+              inputElement.name = q.id;
+              inputElement.accept = "image/*,video/*";
+              if (q.required) inputElement.required = true;
+              break;
+
+            default:
+              inputElement = document.createElement('input');
+              inputElement.type = "text";
+              inputElement.id = q.id;
+              inputElement.name = q.id;
+          }
+
+          fieldWrapper.appendChild(inputElement);
+          surveyForm.appendChild(fieldWrapper);
+        });
+
+        // Add Submit button
+        let submitBtn = document.createElement('button');
+        submitBtn.type = 'submit';
+        submitBtn.className = 'btn-submit';
+        submitBtn.textContent = `Submit ${category.charAt(0).toUpperCase() + category.slice(1)} Survey`;
+        surveyForm.appendChild(submitBtn);
+      }
+
+      // Clear survey form content and reward
+      function clearSurveyForm() {
+        surveyForm.innerHTML = '';
+        rewardMessage.textContent = '';
+      }
+
+      // Validate form: check required fields including radio groups and checkboxes
+      function validateForm(form, questions) {
+        let valid = true;
+        let firstInvalid = null;
+
+        for (let q of questions) {
+          const value = form.elements[q.id];
+          if (!q.required) continue;
+
+          if (q.type === 'radio') {
+            // radio group validation
+            const radios = form.querySelectorAll(`input[name="${q.id}"]`);
+            const checked = Array.from(radios).some(r => r.checked);
+            if (!checked) {
+              valid = false;
+              if (!firstInvalid) firstInvalid = radios[0];
+            }
+          } else if (q.type === 'checkbox') {
+            const checkboxes = form.querySelectorAll(`input[name="${q.id}"]`);
+            // For checkbox, only validate if required as at least one must be selected
+            const checked = Array.from(checkboxes).some(c => c.checked);
+            if (!checked) {
+              valid = false;
+              if (!firstInvalid) firstInvalid = checkboxes[0];
+            }
+          } else if (value) {
+            // For normal inputs or textarea or select
+            let val = value.value ? value.value.trim() : "";
+            if (!val) {
+              valid = false;
+              if (!firstInvalid) firstInvalid = value;
+            }
+          }
+        }
+        if (!valid && firstInvalid) {
+          firstInvalid.focus();
+          alert("Please fill out all required fields properly before submitting.");
+        }
+        return valid;
+      }
+
+      // Utility to check file size and type
+      function validateFileInput(input) {
+        if (!input.files.length) return true;
+        const file = input.files[0];
+        const maxSizeBytes = 10 * 1024 * 1024; // 10MB max
+        if (file.size > maxSizeBytes) {
+          alert(`File "${file.name}" is too large. Maximum allowed size is 10 MB.`);
+          return false;
+        }
+        // Allowed types: images and videos
+        const acceptedTypes = ['image/', 'video/'];
+        if (!acceptedTypes.some(type => file.type.startsWith(type))) {
+          alert(`File "${file.name}" must be an image or video.`);
+          return false;
+        }
+        return true;
+      }
+
+      // Calculate rewards based on how many questions answered + uploads or links bonus
+      function calculateReward(answers, questions) {
+        const basePointsPerAnswer = 1000;
+        const attachmentBonus = 500;
+        const linkBonus = 300;
+        let points = 0;
+        questions.forEach(q => {
+          const ans = answers[q.id];
+          if (!ans) return;
+          if (Array.isArray(ans) && ans.length === 0) return;
+          // Answered question
+          points += basePointsPerAnswer;
+          // Bonus for file uploads (type file)
+          if (q.type === 'file' && ans instanceof File) {
+            points += attachmentBonus;
+          }
+          // Bonus for URL type with value
+          if (q.type === 'url' && typeof ans === 'string' && ans.trim() !== '') {
+            points += linkBonus;
+          }
+        });
+        return points;
+      }
+
+      // Serialize answers from form inputs
+      function getAnswersFromForm(form, questions) {
+        const answers = {};
+        for (let q of questions) {
+          if (q.type === 'checkbox') {
+            const checked = Array.from(form.querySelectorAll(`input[name="${q.id}"]:checked`)).map(c => c.value);
+            answers[q.id] = checked;
+          } else if (q.type === 'radio') {
+            const selected = form.querySelector(`input[name="${q.id}"]:checked`);
+            answers[q.id] = selected ? selected.value : null;
+          } else if (q.type === 'file') {
+            answers[q.id] = form.elements[q.id].files.length ? form.elements[q.id].files[0] : null;
+          } else {
+            answers[q.id] = form.elements[q.id].value.trim();
+          }
+        }
+        return answers;
+      }
+
+      // Save survey response into localStorage
+      function saveSurveyResponse(category, answers, reward) {
+        let stored = JSON.parse(localStorage.getItem('insightlyaSurveys') || '{}');
+        if (!stored[category]) stored[category] = [];
+        // Store answer only metadata for files (name + type + size)
+        const safeAnswers = {};
+        for(const [key, val] of Object.entries(answers)) {
+          if(val instanceof File){
+            safeAnswers[key] = { name: val.name, type: val.type, size: val.size };
+          } else {
+            safeAnswers[key] = val;
+          }
+        }
+        stored[category].push({
+          answers: safeAnswers,
+          rewardPoints: reward,
+          submittedAt: new Date().toISOString()
+        });
+        localStorage.setItem('insightlyaSurveys', JSON.stringify(stored));
+      }
+
+      // Highlight selected category on landing page
+      function highlightSelectedCategoryCard(category) {
+        categoryCards.forEach(card => {
+          if (card.dataset.category === category) {
+            card.style.border = "2px solid #ff6b6b";
+            card.style.boxShadow = "0 12px 24px rgba(255,107,107,0.6)";
+            card.style.transform = "translateY(-8px) scale(1.05)";
+            card.setAttribute('aria-selected', 'true');
+          } else {
+            card.style.border = "";
+            card.style.boxShadow = "";
+            card.style.transform = "";
+            card.removeAttribute('aria-selected');
+          }
+        });
+      }
+
+      // Clear survey form content and reward
+      function clearSurveyForm() {
+        surveyForm.innerHTML = '';
+        rewardMessage.textContent = '';
+      }
+
+      // Navigation and event handlers
+      navHomeBtn.addEventListener('click', () => {
+        showHomePage();
+      });
+      navSurveyBtn.addEventListener('click', () => {
+        showSurveyPage(selectedCategory || "fashion");
+        if(selectedCategory){
+          highlightSelectedCategoryCard(selectedCategory);
+        }
+      });
+      btnBackHome.addEventListener('click', () => showHomePage());
+      btnTakeSurvey.addEventListener('click', () => {
+        let cat = selectedCategory || "fashion";
+        highlightSelectedCategoryCard(cat);
+        showSurveyPage(cat);
+      });
+      categoryCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const category = card.dataset.category;
+          highlightSelectedCategoryCard(category);
+          showSurveyPage(category);
+        });
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+
+      // Form submission and validation
+      surveyForm.addEventListener('submit', e => {
+        e.preventDefault();
+        if (!selectedCategory) {
+          alert("No category selected.");
+          return;
+        }
+        // Get questions of current category
+        const questions = surveyQuestions[selectedCategory] || [];
+        // Validation including files
+        if (!validateForm(surveyForm, questions)) return;
+        // Validate each file input size/type
+        for (let q of questions) {
+          if (q.type === 'file') {
+            if (!validateFileInput(surveyForm.elements[q.id])) return;
+          }
+        }
+        // Get answers
+        const answers = getAnswersFromForm(surveyForm, questions);
+        // Compute reward points
+        const rewardPoints = calculateReward(answers, questions);
+        // Save response locally
+        saveSurveyResponse(selectedCategory, answers, rewardPoints);
+
+        // Show confirmation message
+        rewardMessage.innerHTML = `Thank you for completing the survey! You earned <strong>${rewardPoints.toLocaleString()}</strong> reward points.`;
+
+        // Reset form after submission but keep category selected
+        surveyForm.reset();
+      });
+
+      // Initial page load
+      showHomePage();
+
+      // Accessibility: Keyboard Esc to go back home on survey page
+      surveyPage.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          showHomePage();
+          navHomeBtn.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
